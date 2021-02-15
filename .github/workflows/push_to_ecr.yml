@@ -6,14 +6,13 @@ on:
       - "app/**"
   workflow_dispatch:
 
-defaults:
-  run:
-    working-directory: ./app
-
 jobs:
   PublishToEcr:
     name: "Publish to ECR"
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app
 
     steps:
       - name: Checkout Repository
@@ -49,3 +48,35 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+  UpdateInfrastructure:
+    name: "Update Terraform"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./terraform
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@master
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.6
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+        continue-on-error: true
+
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply -auto-approve
