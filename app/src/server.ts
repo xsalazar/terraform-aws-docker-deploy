@@ -14,7 +14,7 @@ export default class MyServer {
       method: 'GET',
       path: '/hello',
       handler: () => {
-        return 'Hello World!';
+        return 'Hello Delivery Team!';
       },
     });
 
