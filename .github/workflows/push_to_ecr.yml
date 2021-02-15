@@ -50,6 +50,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
   UpdateInfrastructure:
+    needs: PublishToEcr
     name: "Update Terraform"
     runs-on: ubuntu-latest
     defaults:
@@ -79,4 +80,4 @@ jobs:
 
       - name: Terraform Apply
         id: apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve -var="account_id=${{ secrets.AWS_ACCOUNT_ID }}" -var="region=us-west-2"
