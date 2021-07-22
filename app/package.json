@@ -11,7 +11,7 @@
     "@tsconfig/node14": "^1.0.1",
     "@types/hapi__hapi": "^20.0.9",
     "@types/node": "^16.4.0",
-    "nodemon": "2.0.7",
+    "nodemon": "2.0.12",
     "prettier": "^2.3.2",
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
