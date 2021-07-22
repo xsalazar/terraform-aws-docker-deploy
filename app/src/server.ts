@@ -1,4 +1,5 @@
 import * as Hapi from '@hapi/hapi';
+import { MyController } from './controller';
 
 export default class MyServer {
   private static _instance: Hapi.Server;
@@ -10,13 +11,8 @@ export default class MyServer {
 
     MyServer._instance = new Hapi.Server(serverConfig);
 
-    MyServer._instance.route({
-      method: 'GET',
-      path: '/hello',
-      handler: () => {
-        return 'Hello Gunnar!';
-      },
-    });
+    const myController = new MyController();
+    MyServer._instance.route(myController.routes());
 
     await this.instance.start();
     console.log(`Server is running on ${MyServer._instance.info.uri}`);

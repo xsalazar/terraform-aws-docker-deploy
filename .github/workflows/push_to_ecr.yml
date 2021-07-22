@@ -21,10 +21,10 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: "12"
+          node-version: "14"
 
       - name: Install packages
-        run: npm install
+        run: npm ci
 
       - name: Compile project
         run: npm run compile
@@ -71,7 +71,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 0.14.6
+          terraform_version: 1.0.2
 
       - name: Terraform Init
         id: init
@@ -80,4 +80,4 @@ jobs:
 
       - name: Terraform Apply
         id: apply
-        run: terraform apply -auto-approve -var="account_id=${{ secrets.AWS_ACCOUNT_ID }}" -var="region=us-west-2"
+        run: terraform apply -auto-approve

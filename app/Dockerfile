@@ -1,10 +1,15 @@
-FROM public.ecr.aws/lambda/nodejs:12
-# Alternatively, you can pull the base image from Docker Hub: amazon/aws-lambda-nodejs:12
+FROM node:14
 
-COPY dist/out-tsc/*.js package*.json ./
+COPY dist/out-tsc package*.json ./
 
 # Install NPM dependencies for function
-RUN npm install
+RUN npm ci
+
+# Set NODE_ENV for deployed images
+ENV NODE_ENV=production
+
+# Expose the port used by the service
+EXPOSE 8400
 
 # Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
-CMD [ "index.lambdaHandler" ]
+CMD [ "node", "index.js" ]
