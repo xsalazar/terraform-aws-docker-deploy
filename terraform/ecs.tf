@@ -53,7 +53,6 @@ resource "aws_ecs_task_definition" "instance" {
     name      = "container-defintion"
     image     = join("@", [aws_ecr_repository.instance.repository_url, data.aws_ecr_image.instance.image_digest])
     essential = true
-
     portMappings = [{
       containerPort = 8400
     }]

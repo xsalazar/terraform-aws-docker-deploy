@@ -1,15 +1,13 @@
 name: "Push App Changes to AWS ECR"
 
 on:
-  push:
-    paths:
-      - "app/**"
   workflow_dispatch:
 
 jobs:
   PublishToEcr:
     name: "Publish to ECR"
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: ./app
