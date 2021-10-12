@@ -32,7 +32,7 @@ resource "aws_ecs_service" "instance" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.instance.arn
-    container_name   = "container-defintion"
+    container_name   = "container-definition"
     container_port   = 8400
   }
 
@@ -50,7 +50,7 @@ resource "aws_ecs_task_definition" "instance" {
   cpu                      = 256
   execution_role_arn       = aws_iam_role.ecs_execution_role.arn
   container_definitions = jsonencode([{
-    name  = "container-defintion"
+    name  = "container-definition"
     image = join("@", [aws_ecr_repository.instance.repository_url, data.aws_ecr_image.instance.image_digest])
     portMappings = [{
       containerPort = 8400
