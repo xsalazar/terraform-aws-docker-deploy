@@ -27,6 +27,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 1.0.8
+          terraform_wrapper: false # Necessary to access output
 
       - name: Terraform Init
         id: init
