@@ -26,4 +26,4 @@ This repository is meant to be managed through GitHub Action as the main CI/CD p
 
 The initial bootstrapping should be done by running the [bootstrap](.github/workflows/bootstrap.yml) workflow. This will initialize the ECR registry, push the initial Docker image, and then apply the remaining infrastructure, deploying the Docker image to ECS.
 
-Subsequent changes can be applied by running thte [push_to_ecr](.github/workflows/push_to_ecr.yml) workflow.
+Subsequent changes can be applied by running the [push_to_ecr](.github/workflows/push_to_ecr.yml) workflow.
