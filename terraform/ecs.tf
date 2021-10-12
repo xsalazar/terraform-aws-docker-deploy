@@ -52,6 +52,9 @@ resource "aws_ecs_task_definition" "instance" {
   container_definitions = jsonencode([{
     name  = "container-defintion"
     image = join("@", [aws_ecr_repository.instance.repository_url, data.aws_ecr_image.instance.image_digest])
+    portMappings = [{
+      containerPort = 8400
+    }]
   }])
 }
 
