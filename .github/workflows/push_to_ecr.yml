@@ -1,11 +1,11 @@
-name: "Push Application Changes to AWS ECR"
+name: "Deploy Application Changes"
 
 on:
   workflow_dispatch:
 
 jobs:
-  PublishToEcr:
-    name: "Publish to ECR"
+  DeployApplicationChanges:
+    name: "Deploy Application Changes"
     runs-on: ubuntu-latest
 
     defaults:
@@ -14,12 +14,26 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.8
 
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: "14"
+
+      - name: Generate ECS Task Definition
+        id: apply-partial
+        run: terraform apply -auto-approve -target=template_dir.task_definition
+        working-directory: ./terraform
+
+      - name: Save ECR name to Environment Variables
+        run: echo "ECR_NAME=$(terraform output -raw ecr_repository_name)" >> $GITHUB_ENV
+        working-directory: ./terraform
 
       - name: Install packages
         run: npm ci
@@ -38,44 +52,30 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build, tag, and push image to Amazon ECR
+      - name: Build, tag, and push image to Amazon ECR 🏷
+        id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ecr-repository
-          IMAGE_TAG: latest
+          ECR_REPOSITORY: ${{ env.ECR_NAME }}
+          IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+        working-directory: ./app
 
-  UpdateInfrastructure:
-    needs: PublishToEcr
-    name: "Update Terraform"
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./terraform
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@master
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Fill in the new image ID in the Amazon ECS task definition ✒
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-2
+          task-definition: ./terraform/rendered/task-definition.json
+          container-name: container-definition
+          image: ${{ steps.build-image.outputs.image }}
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
+      - name: Deploy Amazon ECS task definition 🚀
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          terraform_version: 1.0.2
-
-      - name: Terraform Init
-        id: init
-        run: terraform init
-        continue-on-error: true
-
-      - name: Terraform Apply
-        id: apply
-        run: terraform apply -auto-approve
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ecs-service
+          cluster: ecs-cluster
+          wait-for-service-stability: true
