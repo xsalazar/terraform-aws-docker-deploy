@@ -26,6 +26,6 @@ output "alb_dns" {
   value = aws_lb.instance.dns_name
 }
 
-output "ecs_repository_name" {
+output "ecr_repository_name" {
   value = aws_ecr_repository.instance.name
 }
