@@ -38,29 +38,38 @@ resource "aws_ecs_service" "instance" {
 
   // Ignored because the autoscaling might change this value once the service is running
   lifecycle {
-    ignore_changes = [desired_count]
+    ignore_changes = [desired_count, task_definition]
   }
 }
 
 resource "aws_ecs_task_definition" "instance" {
-  family                   = "ecs-task-definition"
+  family                   = "ecs-task-definition-family"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   memory                   = 512
   cpu                      = 256
   execution_role_arn       = aws_iam_role.ecs_execution_role.arn
   container_definitions = jsonencode([{
-    name      = "container-defintion"
-    image     = join("@", [aws_ecr_repository.instance.repository_url, data.aws_ecr_image.instance.image_digest])
-    essential = true
-    portMappings = [{
-      containerPort = 8400
-    }]
+    name  = "container-defintion"
+    image = join("@", [aws_ecr_repository.instance.repository_url, data.aws_ecr_image.instance.image_digest])
   }])
 }
 
+resource "template_dir" "task_definition" {
+  source_dir      = "${path.module}/templates"
+  destination_dir = "${path.module}/rendered"
+
+  vars = {
+    awslogs_group         = aws_cloudwatch_log_group.instance.name
+    awslogs_stream_prefix = "application"
+    execution_role_arn    = aws_iam_role.ecs_execution_role.arn
+    region                = "us-west-2"
+  }
+}
+
 resource "aws_cloudwatch_log_group" "instance" {
-  name = "/aws/ecs/${local.ecs_service_name}"
+  name              = "/aws/ecs/${local.ecs_service_name}"
+  retention_in_days = 1
 }
 
 resource "aws_appautoscaling_target" "instance" {

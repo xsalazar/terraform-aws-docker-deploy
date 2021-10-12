@@ -1,0 +1,30 @@
+{
+  "family": "ecs-task-definition-family",
+  "requiresCompatibilities": ["FARGATE"],
+  "executionRoleArn": "${execution_role_arn}",
+  "networkMode": "awsvpc",
+  "cpu": "256",
+  "memory": "512",
+  "containerDefinitions": [
+    {
+      "name": "container-definition",
+      "image": "",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 8400,
+          "protocol": "tcp",
+          "containerPort": 8400
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "${awslogs_group}",
+          "awslogs-region": "${region}",
+          "awslogs-stream-prefix": "${awslogs_stream_prefix}"
+        }
+      }
+    }
+  ]
+}

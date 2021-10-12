@@ -1,4 +1,4 @@
-name: "Push App Changes to AWS ECR"
+name: "Push Application Changes to AWS ECR"
 
 on:
   workflow_dispatch:
