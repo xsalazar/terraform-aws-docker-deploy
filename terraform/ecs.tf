@@ -21,6 +21,11 @@ resource "aws_ecs_service" "instance" {
   launch_type                        = "FARGATE"
   scheduling_strategy                = "REPLICA"
 
+  deployment_circuit_breaker {
+    enable   = true
+    rollback = true
+  }
+
   network_configuration {
     assign_public_ip = true
     security_groups  = ["sg-11972e50"]
