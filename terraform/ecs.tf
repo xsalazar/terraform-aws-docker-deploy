@@ -22,7 +22,7 @@ resource "aws_ecs_service" "instance" {
   scheduling_strategy                = "REPLICA"
 
   deployment_circuit_breaker {
-    enable   = true
+    enable   = false
     rollback = false
   }
 
