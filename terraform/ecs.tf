@@ -23,7 +23,7 @@ resource "aws_ecs_service" "instance" {
 
   deployment_circuit_breaker {
     enable   = true
-    rollback = true
+    rollback = false
   }
 
   network_configuration {
