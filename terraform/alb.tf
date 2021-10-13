@@ -18,13 +18,16 @@ resource "aws_lb_listener" "instance" {
 }
 
 resource "aws_lb_target_group" "instance" {
-  name        = "alb-target-group"
-  target_type = "ip"
-  protocol    = "HTTP"
-  port        = 8400
-  vpc_id      = "vpc-6e8a0f16"
+  name                 = "alb-target-group"
+  target_type          = "ip"
+  protocol             = "HTTP"
+  port                 = 8400
+  vpc_id               = "vpc-6e8a0f16"
+  deregistration_delay = 30 // seconds
   health_check {
-    protocol = "HTTP"
-    path     = "/"
+    interval          = 5 // seconds
+    healthy_threshold = 2
+    protocol          = "HTTP"
+    path              = "/"
   }
 }
