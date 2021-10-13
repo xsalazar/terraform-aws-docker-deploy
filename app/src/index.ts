@@ -24,4 +24,3 @@ async function handleSignal(signal: string): Promise<void> {
 // Listen for signals and gracefully stop the server
 process.on('SIGINT', handleSignal);
 process.on('SIGTERM', handleSignal);
-process.on('SIGKILL', handleSignal);
