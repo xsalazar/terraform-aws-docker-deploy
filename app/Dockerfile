@@ -1,5 +1,8 @@
 FROM node:14-alpine
 
+# Install curl into image
+RUN apk --no-cache add curl
+
 COPY dist/out-tsc package*.json ./
 
 # Install NPM dependencies for function
