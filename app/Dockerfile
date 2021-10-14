@@ -3,7 +3,7 @@ FROM node:14-alpine
 COPY dist/out-tsc package*.json ./
 
 # Install NPM dependencies for function
-RUN npm ci
+RUN npm ci --production
 
 # Expose the port used by the service
 EXPOSE 8400
