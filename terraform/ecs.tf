@@ -15,15 +15,15 @@ resource "aws_ecs_service" "instance" {
   name                               = local.ecs_service_name
   cluster                            = aws_ecs_cluster.instance.id
   task_definition                    = aws_ecs_task_definition.instance.arn
-  desired_count                      = 1
+  desired_count                      = 5
   deployment_minimum_healthy_percent = 50
   deployment_maximum_percent         = 200
   launch_type                        = "FARGATE"
   scheduling_strategy                = "REPLICA"
 
   deployment_circuit_breaker {
-    enable   = false
-    rollback = false
+    enable   = true
+    rollback = true
   }
 
   network_configuration {

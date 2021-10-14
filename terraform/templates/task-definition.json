@@ -17,6 +17,12 @@
           "containerPort": 8400
         }
       ],
+      "healthCheck": {
+        "retries": 1,
+        "command": ["CMD-SHELL", "curl -f localhost:8400/ || exit 1"],
+        "timeout": 5,
+        "interval": 1
+      },
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
