@@ -9,54 +9,54 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Repository 📦
         uses: actions/checkout@v2
 
-      - name: Configure AWS Credentials
+      - name: Configure AWS Credentials 🔑
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
 
-      - name: Setup Terraform
+      - name: Setup Terraform 🏗
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 1.0.8
           terraform_wrapper: false # Necessary to access output
 
-      - name: Terraform Init
+      - name: Terraform Init ✨
         id: init
         run: terraform init
         working-directory: ./terraform
 
-      - name: Terraform Apply ECR
+      - name: Terraform Apply ECR 💅
         id: apply-partial
         run: terraform apply -auto-approve -target=aws_ecr_repository.instance
         working-directory: ./terraform
 
-      - name: Save ECR name to Environment Variables
+      - name: Save ECR name to Environment Variables 💾
         run: echo "ECR_NAME=$(terraform output -raw ecr_repository_name)" >> $GITHUB_ENV
         working-directory: ./terraform
 
-      - name: Setup Node
+      - name: Setup Node 🏗
         uses: actions/setup-node@v1
         with:
           node-version: "14"
 
-      - name: Install packages
+      - name: Install packages 📀
         run: npm ci
         working-directory: ./app
 
-      - name: Compile project
+      - name: Compile project 🛠
         run: npm run compile
         working-directory: ./app
 
-      - name: Login to Amazon ECR
+      - name: Login to Amazon ECR 🧑‍💻
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build, tag, and push image to Amazon ECR
+      - name: Build, tag, and push image to Amazon ECR 🏷
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ECR_NAME }}
@@ -66,7 +66,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         working-directory: ./app
 
-      - name: Terraform Apply
+      - name: Terraform Apply 🚀
         id: apply
         run: terraform apply -auto-approve
         working-directory: ./terraform

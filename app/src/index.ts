@@ -1,4 +1,4 @@
-import MyServer from './server';
+import MyServer from "./server";
 
 (async (): Promise<void> => {
   try {
@@ -22,5 +22,5 @@ async function handleSignal(signal: string): Promise<void> {
   process.exit(0);
 }
 // Listen for signals and gracefully stop the server
-process.on('SIGINT', handleSignal);
-process.on('SIGTERM', handleSignal);
+process.on("SIGINT", handleSignal);
+process.on("SIGTERM", handleSignal);

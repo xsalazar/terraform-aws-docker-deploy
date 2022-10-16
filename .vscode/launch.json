@@ -6,13 +6,13 @@
   "configurations": [
     {
       "name": "Launch Server",
-      "type": "pwa-node",
+      "type": "node",
       "outputCapture": "std",
       "request": "launch",
       "runtimeArgs": ["run-script", "start"],
       "runtimeExecutable": "npm",
       "skipFiles": ["<node_internals>/**"],
-      "cwd": "${workspaceFolder}\\app"
+      "cwd": "${workspaceFolder}/app"
     }
   ]
 }
