@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@tsconfig/node14": "^1.0.1",
-    "@types/hapi__hapi": "^20.0.9",
+    "@types/hapi__hapi": "^21.0.0",
     "@types/node": "^18.0.0",
     "nodemon": "^2.0.13",
     "prettier": "^2.3.2",
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@hapi/boom": "^10.0.0",
-    "@hapi/hapi": "^20.1.0",
+    "@hapi/hapi": "^21.3.1",
     "hapi-decorators": "^2.0.0"
   }
 }
