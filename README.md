@@ -7,16 +7,16 @@ This repository also leverages GitHub Actions to lay the CI/CD groundwork to aut
 
 ### Application
 
-The Typescript application code lives in the [`app/`](app/) subdirectory. This application is built using `node` v14.
+The Typescript application code lives in the [`app/`](app/) subdirectory. This application is built using `node` v18.
 
 ```bash
 cd app/
-npm install
+npm install && npm start
 ```
 
 ### Infrastructure
 
-The required `terraform` version for this repository is v1.0.2. The architecture built from this code is below.
+The required `terraform` version for this repository is v1.1.2. The architecture built from this code is below.
 
 ![](assets/architecture/architecture.svg)
 
