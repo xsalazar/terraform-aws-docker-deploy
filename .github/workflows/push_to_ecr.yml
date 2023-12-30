@@ -24,9 +24,9 @@ jobs:
           aws-region: us-west-2
 
       - name: Setup Terraform 🏗
-        uses: hashicorp/setup-terraform@v2.0.3
+        uses: hashicorp/setup-terraform@v3.0.0
         with:
-          terraform_version: 1.0.8
+          terraform_version: 1.1.2
           terraform_wrapper: false # Necessary to access output
 
       - name: Terraform Init ✨
@@ -37,7 +37,7 @@ jobs:
       - name: Setup Node 🏗
         uses: actions/setup-node@v4
         with:
-          node-version: "14"
+          node-version: "18"
 
       - name: Generate ECS Task Definition
         id: apply-partial
@@ -56,7 +56,7 @@ jobs:
 
       - name: Login to Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build, tag, and push image to Amazon ECR 🏷
         id: build-image
