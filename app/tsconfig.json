@@ -1,6 +1,6 @@
 /* https://www.typescriptlang.org/tsconfig */
 {
-  "extends": "@tsconfig/node14/tsconfig.json",
+  "extends": "@tsconfig/node18/tsconfig.json",
   "compilerOptions": {
     /* Project Options */
     "declaration": true /* Generates corresponding '.d.ts' file. */,

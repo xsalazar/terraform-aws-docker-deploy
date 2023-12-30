@@ -1,5 +1,5 @@
 import * as Hapi from "@hapi/hapi";
-import { MyController } from "./controller";
+import MyController from "./controller";
 
 export default class MyServer {
   private static _instance: Hapi.Server;
