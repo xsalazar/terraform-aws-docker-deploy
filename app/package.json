@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@tsconfig/node18": "^1.0.3",
-    "@types/node": "^18.19.4",
+    "@types/node": "^20.11.30",
     "nodemon": "^3.0.2",
     "ts-node": "^10.1.0",
     "typescript": "^5.0.2"
