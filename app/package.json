@@ -1,6 +1,5 @@
 {
   "name": "app",
-  "author": "Xavier Salazar",
   "description": "",
   "version": "1.0.0",
   "scripts": {
@@ -8,15 +7,14 @@
     "compile": "tsc"
   },
   "devDependencies": {
-    "@tsconfig/node18": "^1.0.3",
-    "@types/node": "^18.19.4",
-    "nodemon": "^3.0.2",
-    "ts-node": "^10.1.0",
-    "typescript": "^5.0.2"
+    "@tsconfig/node20": "^20.1.4",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
   },
   "dependencies": {
-    "@hapi/boom": "^10.0.0",
-    "@hapi/hapi": "^21.3.2",
+    "@hapi/boom": "^10.0.1",
+    "@hapi/hapi": "^21.3.12",
     "hapi-decorators": "^2.0.0"
   }
 }

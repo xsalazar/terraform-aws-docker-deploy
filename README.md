@@ -11,12 +11,12 @@ The Typescript application code lives in the [`app/`](app/) subdirectory. This a
 
 ```bash
 cd app/
-npm install && npm start
+npm ci && npm start
 ```
 
 ### Infrastructure
 
-The required `terraform` version for this repository is v1.1.2. The architecture built from this code is below.
+The required `terraform` version for this repository is v1.10.2. The architecture built from this code is below.
 
 ![](assets/architecture/architecture.svg)
 
