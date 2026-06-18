@@ -5,15 +5,13 @@
     /* Project Options */
     "declaration": true /* Generates corresponding '.d.ts' file. */,
     "outDir": "./dist/out-tsc" /* Redirect output structure to the directory. */,
+    "rootDir": "./",
 
     /* Strict Type-Checking Options */
     "alwaysStrict": true /* Parse in strict mode and emit "use strict" for each source file. */,
     "noImplicitAny": true /* Raise error on expressions and declarations with an implied 'any' type. */,
     "strictNullChecks": true /* Enable strict null checks. */,
     "strictPropertyInitialization": false,
-
-    /* Module Resolution Options */
-    "baseUrl": "./src/**" /* Base directory to resolve non-absolute module names. */,
 
     /* Experimental Options */
     "experimentalDecorators": true,

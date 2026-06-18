@@ -12,7 +12,7 @@ export default class MyController implements Controller {
   @get("/")
   public healthCheck(
     request: Hapi.Request,
-    responseToolkit: Hapi.ResponseToolkit
+    responseToolkit: Hapi.ResponseToolkit,
   ): Hapi.ResponseObject {
     return responseToolkit.response("Hello World! 👋").code(200);
   }
